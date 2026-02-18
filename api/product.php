@@ -19,7 +19,7 @@ if (!$id) {
 
 if ($method === 'GET') {
 
-    $stmt = $connection->prepare("SELECT * FROM products WHERE id = ? LIMIT 1");
+    $stmt = $connection->prepare("SELECT * FROM idm250 WHERE id = ? LIMIT 1");
     $stmt->bind_param('i', $id); 
     $stmt->execute();
     $result  = $stmt->get_result();
@@ -43,15 +43,15 @@ if ($method === 'GET') {
 
     $data = json_decode(file_get_contents('php://input'), true);
 
-    if (!isset($data['name'])) {
+    if (!isset($data['sku']) && !isset($data['description']) && !isset($data['rate'])) {
         http_response_code(400);
         echo json_encode(['error' => 'Bad Request']);
         exit;
     }
 
-    $name = $connection->real_escape_string($data['name']);
-    $stmt = $connection->prepare("UPDATE products SET name = ? WHERE id = ? LIMIT 1");
-    $stmt->bind_param('si', $name, $id);
+    $description = $connection->real_escape_string($data['description']);
+    $stmt = $connection->prepare("UPDATE idm250 SET p.description = ? WHERE id = ? LIMIT 1");
+    $stmt->bind_param('si', $description, $id);
 
     if ($stmt->execute()) {
         echo json_encode(['success' => true]);
@@ -62,7 +62,7 @@ if ($method === 'GET') {
 
 } elseif ($method === 'DELETE') {
 
-    $stmt = $connection->prepare("DELETE FROM products WHERE id = ? LIMIT 1");
+    $stmt = $connection->prepare("DELETE FROM idm250 WHERE id = ? LIMIT 1");
     $stmt->bind_param('i', $id); 
 
     if ($stmt->execute()) {

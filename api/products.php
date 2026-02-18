@@ -12,13 +12,11 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
 
-    $query = "SELECT p.id, p.name, p.base_price FROM products p";
+    $query = "SELECT p.id, p.sku, p.description, p.rate FROM idm250 p";
 
-    if (isset($_GET['category'])) {
-        $category = $connection->real_escape_string($_GET['category']);
-        $query .= " JOIN product_categories pc ON p.id = pc.product_id
-                    JOIN categories c ON pc.category_id = c.id
-                    WHERE c.name = '$category'";
+    if (isset($_GET['search'])) {
+        $search = $connection->real_escape_string($_GET['search']);
+        $query .= " WHERE p.sku LIKE '%$search%' OR p.description LIKE '%$search%'";
     }
 
     $result = $connection->query($query);
@@ -35,17 +33,27 @@ if ($method === 'GET') {
     // Take JSON and decode data from other team
     $data = json_decode(file_get_contents('php://input'), true);
 
-    if (!isset($data['name']) || !isset($data['base_price'])) {
+    if (!isset($data['p.sku']) || !isset($data['p.description'])) {
         http_response_code(400);
         echo json_encode(['error' => 'Bad Request', 'details' => 'Missing required field(s)']);
         exit;
     }
 
-    $name  = $connection->real_escape_string($data['name']);
-    $price = floatval($data['base_price']);
+    $sku         = $connection->real_escape_string($data['p.sku']);
+    $description = $connection->real_escape_string($data['p.description']);
+    $rate        = isset($data['p.rate']) ? floatval($data['p.rate']) : 0.0;
 
-    $stmt = $connection->prepare("INSERT INTO products (name, base_price) VALUES (?, ?)");
-    $stmt->bind_param('sd', $name, $price);
+    $ficha         = isset($data['p.ficha']) ? $connection->real_escape_string($data['p.ficha']) : '';
+    $uom_primary   = isset($data['p.uom_primary']) ? $connection->real_escape_string($data['p.uom_primary']) : '';
+    $piece_count   = isset($data['p.piece_count']) ? intval($data['p.piece_count']) : 0;
+    $length_inches = isset($data['p.length_inches']) ? floatval($data['p.length_inches']) : 0.0;
+    $width_inches  = isset($data['p.width_inches']) ? floatval($data['p.width_inches']) : 0.0;
+    $height_inches = isset($data['p.height_inches']) ? floatval($data['p.height_inches']) : 0.0;
+    $weight_lbs    = isset($data['p.weight_lbs']) ? floatval($data['p.weight_lbs']) : 0.0;
+    $assembly      = isset($data['p.assembly']) ? $connection->real_escape_string($data['p.assembly']) : '';
+
+    $stmt = $connection->prepare("INSERT INTO idm250 (p.ficha, p.sku, p.description, p.uom_primary, p.piece_count, p.length_inches, p.width_inches, p.height_inches, p.weight_lbs, p.assembly, p.rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param('sssidddddsd', $ficha, $sku, $description, $uom_primary, $piece_count, $length_inches, $width_inches, $height_inches, $weight_lbs, $assembly, $rate);
 
     if ($stmt->execute()) {
         http_response_code(201);
