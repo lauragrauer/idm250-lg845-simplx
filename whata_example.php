@@ -6,7 +6,7 @@ $product_data = [
     'name' => 'Groundhogday Phil',
     'description' => 'there has been a lot of phil groundhog',
     'sku' => 'PHIL-001',
-    'base_price' => 50.99
+    'base_price' => 500.99
 ];
 
 $options = [

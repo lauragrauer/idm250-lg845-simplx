@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    padding: 20px 40px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+h2 {
+    margin: 20px 0 10px;
+    font-size: 20px;
+}
+
+/* NAV */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    background: #333;
+    padding: 10px 18px;
+    border-radius: 6px;
+}
+
+nav a:hover {
+    background: #555;
+}
+
+/* TABLE JUNK */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background: #fff;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+th {
+    background: #333;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Forms */
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+input, select {
+    padding: 6px 10px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+button:hover {
+    background: #555;
+}
+
+/* MESSSAGES */
+p b {
+    color: #2a7d2a;
+}
+
+/* LINKS */
+a {
+    color: #0066cc;
+}
+
+/* FIELDSET */
+fieldset {
+    border: 1px solid #ddd;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+input[type="password"] {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* *
+body
+html
+h1
+h2
+h3
+p
+b
+a
+a:hover
+nav
+nav ul
+nav li
+nav a
+nav a:hover
+ul
+li
+table
+tr
+tr:nth-child(even)
+th
+td
+form
+fieldset
+legend
+label
+input
+input[type="text"]
+input[type="password"]
+input[type="date"]
+input[type="checkbox"]
+input[type="hidden"]
+button
+button:hover
+div
+br
+hr */

@@ -1,8 +1,8 @@
 <!-- #### Connection Info -->
 
-Our endpoint URL: https://digmstudents.westphal.drexel.edu/~lg845/cms/functions/update_inventory.php
-Our API key: cms-key-456
-Every request they send us must be POST with headers Content-Type: application/json and X-API-KEY: cms-key-456
+Our endpoint URL: https://digmstudents.westphal.drexel.edu/~lg845/simplx/functions/update_inventory.php
+Our API key: simplx-key-2026
+Every request they send us must be POST with headers Content-Type: application/json and X-API-KEY: simplx-key-2026
 
 <!-- Fields that arrive when we send them an MPL -->
 
@@ -27,6 +27,9 @@ $data['items'] → array, each item has:
 ['weight_lbs']
 ['assembly']
 ['rate']
+
+mpl_items = the individual wood units attached to an MPL (which units are being shipped to the warehouse)
+order_items = the individual wood units attached to an order (which units are being shipped to a customer)
 
 
 

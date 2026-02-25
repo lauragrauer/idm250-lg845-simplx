@@ -106,10 +106,10 @@ $internal_units = fetch_internal_inventory();
             <?php else: ?>
                 <ul>
                     <?php foreach ($internal_units as $unit): ?>
-                        <li>
-                            <input type="checkbox" name="units[]" value="<?= $unit['unit_id'] ?>">
-                            <?= $unit['unit_id'] ?> - <?= $unit['sku'] ?> (<?= $unit['description'] ?>)
-                        </li>
+                    <li>
+                    <input type="checkbox" name="units[]" value="<?= $unit['unit_id'] ?>">
+                    <?= $unit['unit_id'] ?> - <?= $unit['sku'] ?> (<?= $unit['description'] ?>)
+                    </li>
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
@@ -146,22 +146,22 @@ $internal_units = fetch_internal_inventory();
                 <td>
                     <?= count($items) ?> unit(s)
                     <ul>
-                        <?php foreach ($items as $item): ?>
-                            <li><?= $item['unit_id'] ?> - <?= $item['sku'] ?> (<?= $item['description'] ?? '' ?>)</li>
-                        <?php endforeach; ?>
+                    <?php foreach ($items as $item): ?>
+                    <li><?= $item['unit_id'] ?> - <?= $item['sku'] ?> (<?= $item['description'] ?? '' ?>)</li>
+                    <?php endforeach; ?>
                     </ul>
-                </td>
+                    </td>
                 <td>
                     <?php if ($m['status'] === 'draft'): ?>
                         <form action="mpls.php" method="POST">
-                            <input type="hidden" name="action" value="send">
-                            <input type="hidden" name="mpl_id" value="<?= $m['id'] ?>">
-                            <button type="submit">Send to WMS</button>
+                        <input type="hidden" name="action" value="send">
+                        <input type="hidden" name="mpl_id" value="<?= $m['id'] ?>">
+                        <button type="submit">Send to WMS</button>
                         </form>
                     <?php else: ?>
-                        <?= $m['status'] ?>
+                    <?= $m['status'] ?>
                     <?php endif; ?>
-                </td>
+            </td>
             </tr>
             <?php endforeach; ?>
         </table>

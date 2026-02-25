@@ -151,7 +151,7 @@ $warehouse_units = fetch_warehouse_inventory();
                     <?= count($items) ?> unit(s)
                     <ul>
                         <?php foreach ($items as $item): ?>
-                            <li><?= $item['unit_id'] ?> - <?= $item['sku'] ?? '' ?> (<?= $item['description'] ?? '' ?>)</li>
+                        <li><?= $item['unit_id'] ?> - <?= $item['sku'] ?? '' ?> (<?= $item['description'] ?? '' ?>)</li>
                         <?php endforeach; ?>
                     </ul>
                 </td>
@@ -165,7 +165,7 @@ $warehouse_units = fetch_warehouse_inventory();
                     <?php else: ?>
                         <?= $o['status'] ?>
                     <?php endif; ?>
-                </td>
+            </td>
             </tr>
             <?php endforeach; ?>
         </table>

@@ -14,7 +14,10 @@ $orders = get_orders();
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>CMS Dashboard</title></head>
+<head>
+    <title>CMS Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
     <h1>CMS Dashboard</h1>
     <nav>
