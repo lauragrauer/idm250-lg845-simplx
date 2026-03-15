@@ -1,43 +1,63 @@
 <?php
-require_once __DIR__ . '/.env.php';
 require_once __DIR__ . '/includes/auth.php';
 
-$message = '';
+if ($_SESSION['user_id'] ?? '') {
+    header('Location: dashboard.php');
+    exit;
+}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+require_once __DIR__ . '/includes/db.php';
 
-    if (login_user($username, $password)) {
-        header('Location: index.php');
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $stmt = $connection->prepare('SELECT * FROM users WHERE username = ? LIMIT 1');
+    $stmt->bind_param('s', $_POST['username']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user   = $result->fetch_assoc();
+
+    if ($user && password_verify($_POST['password'], $user['password'])) {
+        $_SESSION['user_id']  = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        header('Location: dashboard.php');
         exit;
-    } else {
-        $message = "Invalid username or password.";
     }
+
+    $error = 'Invalid username or password.';
 }
 ?>
 <!DOCTYPE html>
-<html>
-<head><title>CMS - Login</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login — Simplx CMS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-    <h1>CMS Login</h1>
+<div class="auth-wrapper">
+    <div class="auth-box">
+        <img src="simplx-logo.png" alt="Simplx" class="auth-logo">
+        <h2>Sign in to your account</h2>
 
-    <?php if ($message): ?>
-        <p><b><?= $message ?></b></p>
-    <?php endif; ?>
+        <?php if ($error) { ?>
+            <div class="alert alert-error"><?php echo htmlspecialchars($error) ?></div>
+        <?php } ?>
 
-    <form action="login.php" method="POST">
-        <div>
-            <label for="username">Username</label><br>
-            <input type="text" name="username" id="username" required>
-        </div>
-        <div>
-            <label for="password">Password</label><br>
-            <input type="password" name="password" id="password" required>
-        </div>
-        <div>
-            <button type="submit">Login</button>
-        </div>
-    </form>
+        <form method="POST" action="login.php">
+            <fieldset>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn-login">Log In</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
 </body>
 </html>

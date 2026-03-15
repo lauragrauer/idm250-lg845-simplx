@@ -1,10 +1,10 @@
-<?php 
+<?php
 return [
-    'DB_HOST' => 'localhost',
-    'DB_NAME' => 'idm250_simplx',
-    'DB_USER' => 'root',
-    'DB_PASS' => 'root',
-    'X-API-KEY' => 'temp_key_tbd' 
-        //This is new from lecture! For authentication
-]
-?>
+    'DB_HOST'     => 'localhost',
+    'DB_NAME'     => 'lg845_db',
+    'DB_USER'     => 'lg845',
+    'DB_PASS'     => '4v244nagodc1uFvo',
+    'X-API-KEY'   => 'simplx-key-2026',
+    'WMS_API_URL' => 'https://digmstudents.westphal.drexel.edu/~rt656/ram/api/v1',
+    'WMS_API_KEY' => 'ram-key-2026'
+];

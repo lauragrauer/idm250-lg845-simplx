@@ -1,39 +1,51 @@
 <?php
 require_once __DIR__ . '/includes/auth.php';
 require_login();
-require_once __DIR__ . '/functions/get_inventory.php';
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/functions.php';
 
-$units = fetch_warehouse_inventory();
+$units = get_inventory('warehouse');
 ?>
 <!DOCTYPE html>
-<html>
-<head><title>CMS - Warehouse Inventory</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Warehouse Inventory — Simplx</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-    <h1>Warehouse Inventory</h1>
-    <p><a href="index.php">Back to Dashboard</a></p>
+<div class="container">
+    <?php include __DIR__ . '/includes/nav.php'; ?>
+    <div class="main-content">
 
-    <h2>Units at Warehouse (<?= count($units) ?>)</h2>
-    <?php if (empty($units)): ?>
-        <p>No warehouse inventory.</p>
-    <?php else: ?>
-        <table border="1" cellpadding="5" cellspacing="0">
-            <tr>
-                <th>Unit ID</th>
-                <th>SKU</th>
-                <th>Description</th>
-                <th>UOM</th>
-                <th>Location</th>
-            </tr>
-            <?php foreach ($units as $u): ?>
-            <tr>
-                <td><?= $u['unit_id'] ?></td>
-                <td><?= $u['sku'] ?></td>
-                <td><?= $u['description'] ?></td>
-                <td><?= $u['uom_primary'] ?></td>
-                <td><?= $u['location'] ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php endif; ?>
+        <div class="header">
+            <div class="header-title">Warehouse Inventory</div>
+            <div class="header-description">WMS when they confirm our MPL stuff</div>
+        </div>
+
+        <div class="table-container" style="max-height:400px;overflow-y:auto;">
+            <table>
+                <thead>
+                    <tr><th>Unit ID</th><th>SKU</th><th>Description</th><th>Moved</th></tr>
+                </thead>
+                <tbody>
+                <?php if (!$units) { ?>
+                    <tr><td colspan="4" class="text-empty">No units in warehouse yet.</td></tr>
+                <?php } else { ?>
+                    <?php foreach ($units as $u) { ?>
+                    <tr>
+                        <td><span class="unit-id"><?php echo htmlspecialchars($u['unit_id']) ?></span></td>
+                        <td><?php echo htmlspecialchars($u['sku']) ?></td>
+                        <td><?php echo htmlspecialchars($u['description']) ?></td>
+                        <td><?php echo htmlspecialchars($u['created_at']) ?></td>
+                    </tr>
+                    <?php } ?>
+                <?php } ?>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
 </body>
 </html>
