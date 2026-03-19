@@ -5,37 +5,37 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/api_client.php';
 
-$id  = $_GET['id'] ?? 0;
+$id = $_GET['id'] ?? 0;
 $sku = get_sku_by_id($id);
 
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = [
-        'ficha'         => $_POST['ficha']         ?? '',
-        'sku'           => $_POST['sku']           ?? '',
-        'description'   => $_POST['description']   ?? '',
-        'uom_primary'   => $_POST['uom_primary']   ?? 'BUNDLE',
-        'piece_count'   => $_POST['piece_count']   ?? 0,
+        'ficha' => $_POST['ficha'] ?? '',
+        'sku' => $_POST['sku'] ?? '',
+        'description' => $_POST['description'] ?? '',
+        'uom_primary' => $_POST['uom_primary'] ?? 'BUNDLE',
+        'piece_count' => $_POST['piece_count'] ?? 0,
         'length_inches' => $_POST['length_inches'] ?? 0,
-        'width_inches'  => $_POST['width_inches']  ?? 0,
+        'width_inches' => $_POST['width_inches'] ?? 0,
         'height_inches' => $_POST['height_inches'] ?? 0,
-        'weight_lbs'    => $_POST['weight_lbs']    ?? 0,
-        'assembly'      => $_POST['assembly']      ?? 'false',
-        'rate'          => $_POST['rate']          ?? 0,
+        'weight_lbs' => $_POST['weight_lbs'] ?? 0,
+        'assembly' => $_POST['assembly'] ?? 'false',
+        'rate' => $_POST['rate'] ?? 0,
     ];
 
     if (!$data['sku'] || !$data['description']) {
         $error = 'SKU Code and Description are required.';
     } else {
         update_sku($id, $data);
-        $env    = require __DIR__ . '/.env.php';
+        $env = require __DIR__ . '/.env.php';
         $synced = sync_sku_to_wms($data, $env);
         if ($synced['success']) {
-            $_SESSION['message']      = 'SKU updated and synced to WMS.';
+            $_SESSION['message'] = 'SKU updated and synced to WMS.';
             $_SESSION['message_type'] = 'success';
         } else {
-            $_SESSION['message']      = 'SKU updated locally, but WMS sync failed.';
+            $_SESSION['message'] = 'SKU updated locally, but WMS sync failed.';
             $_SESSION['message_type'] = 'warning';
         }
         header('Location: sku_management.php', true, 303);

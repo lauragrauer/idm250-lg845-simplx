@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$data   = json_decode(file_get_contents('php://input'), true);
+$data = json_decode(file_get_contents('php://input'), true);
 $action = $data['action'] ?? '';
 
 if ($action !== 'ship') {
@@ -38,7 +38,7 @@ if ($action !== 'ship') {
 }
 
 $order_number = $data['order_number'] ?? '';
-$shipped_at   = $data['shipped_at']   ?? date('Y-m-d');
+$shipped_at = $data['shipped_at'] ?? date('Y-m-d');
 
 if (!$order_number) {
     http_response_code(400);
@@ -89,7 +89,7 @@ foreach ($items as $item) {
 log_event("Order {$order_number} shipped by WMS — {$units_shipped} units removed from inventory");
 
 echo json_encode([
-    'success'       => true,
-    'message'       => 'Order marked as shipped',
+    'success' => true,
+    'message' => 'Order marked as shipped',
     'units_shipped' => $units_shipped
 ]);

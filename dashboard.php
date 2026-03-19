@@ -4,12 +4,12 @@ require_login();
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 
-$sku_count       = count_skus();
-$internal_count  = count_inventory('internal');
+$sku_count = count_skus();
+$internal_count = count_inventory('internal');
 $warehouse_count = count_inventory('warehouse');
-$mpl_count       = count_mpls();
-$order_count     = count_orders();
-$shipped_count   = count_shipped_orders();
+$mpl_count = count_mpls();
+$order_count = count_orders();
+$shipped_count = count_shipped_orders();
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -5,26 +5,26 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $action  = $_POST['action']  ?? 'add';
+    $action = $_POST['action'] ?? 'add';
     $unit_id = $_POST['unit_id'] ?? '';
-    $sku_id  = $_POST['sku_id']  ?? 0;
+    $sku_id = $_POST['sku_id'] ?? 0;
 
     if ($action == 'remove' && $unit_id) {
         $deleted = delete_inventory_unit($unit_id);
         if ($deleted) {
-            $_SESSION['message']      = 'Unit removed from internal inventory.';
+            $_SESSION['message'] = 'Unit removed from internal inventory.';
             $_SESSION['message_type'] = 'success';
         } else {
-            $_SESSION['message']      = 'Could not remove unit.';
+            $_SESSION['message'] = 'Could not remove unit.';
             $_SESSION['message_type'] = 'error';
         }
     } elseif ($action == 'add' && $unit_id && $sku_id) {
         $added = add_inventory_unit($unit_id, $sku_id, 'internal');
         if ($added) {
-            $_SESSION['message']      = 'Unit added to internal inventory.';
+            $_SESSION['message'] = 'Unit added to internal inventory.';
             $_SESSION['message_type'] = 'success';
         } else {
-            $_SESSION['message']      = 'Could not add unit — Unit ID may already exist.';
+            $_SESSION['message'] = 'Could not add unit — Unit ID may already exist.';
             $_SESSION['message_type'] = 'error';
         }
     }
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $units = get_inventory('internal');
-$skus  = get_all_skus();
+$skus = get_all_skus();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,7 +98,7 @@ $skus  = get_all_skus();
                         <td><?php echo htmlspecialchars($u['description']) ?></td>
                         <td>
                         <form method="POST" action="inventory_internal.php" style="display:inline" onsubmit="return confirm('Remove this unit?')">
-                            <input type="hidden" name="action"  value="remove">
+                            <input type="hidden" name="action" value="remove">
                             <input type="hidden" name="unit_id" value="<?php echo htmlspecialchars($u['unit_id']) ?>">
                             <button type="submit" class="btn-delete">Remove</button>
                         </form>

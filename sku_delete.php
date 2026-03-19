@@ -9,10 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($id) {
         if (delete_sku($id)) {
-            $_SESSION['message']      = 'SKU deleted.';
+            $_SESSION['message'] = 'SKU deleted.';
             $_SESSION['message_type'] = 'success';
         } else {
-            $_SESSION['message']      = 'Could not delete — SKU may be in use by inventory.';
+            $_SESSION['message'] = 'Could not delete — SKU may be in use by inventory.';
             $_SESSION['message_type'] = 'error';
         }
     }

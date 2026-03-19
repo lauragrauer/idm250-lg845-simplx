@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$data   = json_decode(file_get_contents('php://input'), true);
+$data = json_decode(file_get_contents('php://input'), true);
 $action = $data['action'] ?? '';
 
 if ($action !== 'confirm') {
@@ -48,7 +48,8 @@ if (!$reference_number) {
 $stmt = $connection->prepare("SELECT * FROM mpls WHERE reference_number = ? LIMIT 1");
 $stmt->bind_param('s', $reference_number);
 $stmt->execute();
-$mpl = $stmt->get_result()->fetch_assoc();
+$result = $stmt->get_result();
+$mpl = $result->fetch_assoc();
 
 if (!$mpl) {
     http_response_code(404);
@@ -75,7 +76,7 @@ foreach ($items as $item) {
 log_event("MPL {$reference_number} confirmed by WMS — {$units_moved} units moved to warehouse");
 
 echo json_encode([
-    'success'     => true,
-    'message'     => 'MPL confirmed',
+    'success' => true,
+    'message' => 'MPL confirmed',
     'units_moved' => $units_moved
 ]);

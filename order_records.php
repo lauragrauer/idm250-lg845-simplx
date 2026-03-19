@@ -9,29 +9,29 @@ require_once __DIR__ . '/includes/log.php';
 $env = require __DIR__ . '/.env.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $action   = $_POST['action']   ?? '';
+    $action = $_POST['action'] ?? '';
     $order_id = $_POST['order_id'] ?? 0;
 
     if ($action == 'delete') {
         $deleted = delete_order($order_id);
         if ($deleted) {
-            $_SESSION['message']      = 'Order deleted.';
+            $_SESSION['message'] = 'Order deleted.';
             $_SESSION['message_type'] = 'success';
         } else {
-            $_SESSION['message']      = 'Could not delete — only draft orders can be deleted.';
+            $_SESSION['message'] = 'Could not delete — only draft orders can be deleted.';
             $_SESSION['message_type'] = 'error';
         }
     } elseif ($action == 'send') {
-        $order  = get_order_by_id($order_id);
-        $items  = get_order_items($order_id);
+        $order = get_order_by_id($order_id);
+        $items = get_order_items($order_id);
         $result = send_order_to_wms($order, $items, $env);
         if ($result['success']) {
             update_order_status($order_id, 'sent');
             log_event("Order {$order['order_number']} sent to WMS");
-            $_SESSION['message']      = 'Order sent to WMS successfully.';
+            $_SESSION['message'] = 'Order sent to WMS successfully.';
             $_SESSION['message_type'] = 'success';
         } else {
-            $_SESSION['message']      = 'Error: ' . ($result['error'] ?? 'Could not reach WMS.');
+            $_SESSION['message'] = 'Error: ' . ($result['error'] ?? 'Could not reach WMS.');
             $_SESSION['message_type'] = 'error';
         }
     }
@@ -120,13 +120,13 @@ $orders = get_all_orders();
                         <a href="order_form.php?id=<?php echo $order['id'] ?>" class="btn-edit">Edit</a>
 
                         <form method="POST" action="order_records.php" style="display:inline" onsubmit="return confirm('Delete this order?')">
-                            <input type="hidden" name="action"   value="delete">
+                            <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="order_id" value="<?php echo $order['id'] ?>">
                             <button type="submit" class="btn-delete">Delete</button>
                         </form>
 
                         <form method="POST" action="order_records.php" style="display:inline">
-                            <input type="hidden" name="action"   value="send">
+                            <input type="hidden" name="action" value="send">
                             <input type="hidden" name="order_id" value="<?php echo $order['id'] ?>">
                             <button type="submit" class="btn-send" <?php if (!$items) echo 'disabled'; ?>>Send to WMS</button>
                         </form>

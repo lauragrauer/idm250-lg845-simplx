@@ -15,10 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param('s', $_POST['username']);
     $stmt->execute();
     $result = $stmt->get_result();
-    $user   = $result->fetch_assoc();
+    $user = $result->fetch_assoc();
 
     if ($user && password_verify($_POST['password'], $user['password'])) {
-        $_SESSION['user_id']  = $user['id'];
+        $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         header('Location: dashboard.php');
         exit;

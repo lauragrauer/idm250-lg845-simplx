@@ -15,23 +15,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($action == 'delete') {
         $deleted = delete_mpl($mpl_id);
         if ($deleted) {
-            $_SESSION['message']      = 'MPL deleted.';
+            $_SESSION['message'] = 'MPL deleted.';
             $_SESSION['message_type'] = 'success';
         } else {
-            $_SESSION['message']      = 'Could not delete — only draft MPLs can be deleted.';
+            $_SESSION['message'] = 'Could not delete — only draft MPLs can be deleted.';
             $_SESSION['message_type'] = 'error';
         }
     } elseif ($action == 'send') {
-        $mpl    = get_mpl_by_id($mpl_id);
-        $items  = get_mpl_items($mpl_id);
+        $mpl = get_mpl_by_id($mpl_id);
+        $items = get_mpl_items($mpl_id);
         $result = send_mpl_to_wms($mpl, $items, $env);
         if ($result['success']) {
             update_mpl_status($mpl_id, 'sent');
             log_event("MPL {$mpl['reference_number']} sent to WMS");
-            $_SESSION['message']      = 'MPL sent to WMS successfully.';
+            $_SESSION['message'] = 'MPL sent to WMS successfully.';
             $_SESSION['message_type'] = 'success';
         } else {
-            $_SESSION['message']      = 'Error: ' . ($result['error'] ?? 'Could not reach WMS.');
+            $_SESSION['message'] = 'Error: ' . ($result['error'] ?? 'Could not reach WMS.');
             $_SESSION['message_type'] = 'error';
         }
     }

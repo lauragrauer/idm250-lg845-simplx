@@ -4,7 +4,7 @@ require_login();
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 
-$id  = $_GET['id'] ?? 0;
+$id = $_GET['id'] ?? 0;
 $mpl = [];
 if ($id) {
     $mpl = get_mpl_by_id($id);
@@ -13,7 +13,7 @@ if ($id) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = [
         'reference_number' => $_POST['reference_number'] ?? '',
-        'trailer_number'   => $_POST['trailer_number']   ?? '',
+        'trailer_number' => $_POST['trailer_number'] ?? '',
         'expected_arrival' => $_POST['expected_arrival'] ?? '',
     ];
     $unit_ids = $_POST['units'] ?? [];
@@ -21,18 +21,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($id) {
         $existing = get_mpl_by_id($id);
         if (!$existing || $existing['status'] != 'draft') {
-            $_SESSION['message']      = 'Only draft MPLs can be edited.';
+            $_SESSION['message'] = 'Only draft MPLs can be edited.';
             $_SESSION['message_type'] = 'error';
             header('Location: mpl_records.php', true, 303);
             exit;
         }
         update_mpl($id, $data);
         replace_mpl_items($id, $unit_ids);
-        $_SESSION['message']      = 'MPL updated.';
+        $_SESSION['message'] = 'MPL updated.';
         $_SESSION['message_type'] = 'success';
     } else {
         create_mpl($data, $unit_ids);
-        $_SESSION['message']      = 'MPL created.';
+        $_SESSION['message'] = 'MPL created.';
         $_SESSION['message_type'] = 'success';
     }
 
@@ -136,8 +136,11 @@ if ($id) { $page_title = 'Edit MPL'; }
 </div>
 
 <script>
-document.getElementById('selectAll').addEventListener('change', function () {
-    document.querySelectorAll('.unit-cb').forEach(cb => cb.checked = this.checked);
+document.getElementById('selectAll').addEventListener('change', function() {
+    var checkboxes = document.querySelectorAll('.unit-cb');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = this.checked;
+    }
 });
 </script>
 

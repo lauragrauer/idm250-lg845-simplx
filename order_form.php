@@ -4,7 +4,7 @@ require_login();
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 
-$id    = $_GET['id'] ?? 0;
+$id = $_GET['id'] ?? 0;
 $order = [];
 if ($id) {
     $order = get_order_by_id($id);
@@ -14,12 +14,12 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = [
-        'order_number'    => $_POST['order_number']    ?? '',
+        'order_number' => $_POST['order_number'] ?? '',
         'ship_to_company' => $_POST['ship_to_company'] ?? '',
-        'ship_to_street'  => $_POST['ship_to_street']  ?? '',
-        'ship_to_city'    => $_POST['ship_to_city']    ?? '',
-        'ship_to_state'   => $_POST['ship_to_state']   ?? '',
-        'ship_to_zip'     => $_POST['ship_to_zip']     ?? '',
+        'ship_to_street' => $_POST['ship_to_street'] ?? '',
+        'ship_to_city' => $_POST['ship_to_city'] ?? '',
+        'ship_to_state' => $_POST['ship_to_state'] ?? '',
+        'ship_to_zip' => $_POST['ship_to_zip'] ?? '',
     ];
     $unit_ids = $_POST['units'] ?? [];
 
@@ -29,18 +29,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($id) {
             $existing = get_order_by_id($id);
             if (!$existing || $existing['status'] != 'draft') {
-                $_SESSION['message']      = 'Only draft orders can be edited.';
+                $_SESSION['message'] = 'Only draft orders can be edited.';
                 $_SESSION['message_type'] = 'error';
                 header('Location: order_records.php', true, 303);
                 exit;
             }
             update_order($id, $data);
             replace_order_items($id, $unit_ids);
-            $_SESSION['message']      = 'Order updated.';
+            $_SESSION['message'] = 'Order updated.';
             $_SESSION['message_type'] = 'success';
         } else {
             create_order($data, $unit_ids);
-            $_SESSION['message']      = 'Order created.';
+            $_SESSION['message'] = 'Order created.';
             $_SESSION['message_type'] = 'success';
         }
         header('Location: order_records.php', true, 303);
@@ -178,8 +178,11 @@ if ($id) { $page_title = 'Edit Order'; }
 </div>
 
 <script>
-document.getElementById('selectAll').addEventListener('change', function () {
-    document.querySelectorAll('.unit-cb').forEach(cb => cb.checked = this.checked);
+document.getElementById('selectAll').addEventListener('change', function() {
+    var checkboxes = document.querySelectorAll('.unit-cb');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = this.checked;
+    }
 });
 </script>
 
